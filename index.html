@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>প্রজ্ঞা AI</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f4ff;
+      color: #172554;
+    }
+
+    header {
+      background: #2345a0;
+      color: white;
+      padding: 22px 15px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    header p {
+      margin-bottom: 0;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: 25px auto;
+      padding: 15px;
+    }
+
+    .chat-box {
+      background: white;
+      border-radius: 15px;
+      padding: 15px;
+      min-height: 320px;
+      box-shadow: 0 3px 15px #00000012;
+    }
+
+    .message {
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 12px;
+      line-height: 1.6;
+    }
+
+    .bot {
+      background: #e8edff;
+    }
+
+    .user {
+      background: #d8f5e2;
+      text-align: right;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid #bbb;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      background: #2345a0;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 10px;
+      color: #526080;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>প্রজ্ঞা AI</h1>
+    <p>আপনার বুদ্ধিমান সহকারী</p>
+  </header>
+
+  <main class="container">
+    <div class="chat-box" id="chatBox">
+      <div class="message bot">
+        আসসালামু আলাইকুম! আমি প্রজ্ঞা AI।<br>
+        আপনাকে স্বাগতম। 
+      </div>
+    </div>
+
+    <div class="input-area">
+      <input
+        type="text"
+        id="userInput"
+        placeholder="আপনার প্রশ্ন লিখুন..."
+      >
+      <button onclick="sendMessage()">পাঠান</button>
+    </div>
+  </main>
+
+  <footer>
+    প্রতিষ্ঠাতা ও নির্মাতা<br>
+    <strong>মোঃ এনায়েত উল্লাহ ফুয়াদ</strong><br>
+    Founder & Creator of Pragya AI
+  </footer>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const chatBox = document.getElementById("chatBox");
+      const message = input.value.trim();
+
+      if (!message) return;
+
+      const userMessage = document.createElement("div");
+      userMessage.className = "message user";
+      userMessage.textContent = message;
+      chatBox.appendChild(userMessage);
+
+      const botMessage = document.createElement("div");
+      botMessage.className = "message bot";
+      botMessage.textContent =
+        "আপনার বার্তা পেয়েছি। AI উত্তর দেওয়ার ব্যবস্থা এখনো সংযুক্ত করা হয়নি।";
+      chatBox.appendChild(botMessage);
+
+      input.value = "";
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    document.getElementById("userInput").addEventListener(
+      "keydown",
+      function(event) {
+        if (event.key === "Enter") sendMessage();
+      }
+    );
+  </script>
+
+</body>
+</html>
