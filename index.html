@@ -1,162 +1,83 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>প্রজ্ঞা AI</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f1f4ff;
-      color: #172554;
-    }
-
-    header {
-      background: #2345a0;
-      color: white;
-      padding: 22px 15px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 30px;
-    }
-
-    header p {
-      margin-bottom: 0;
-    }
-
-    .container {
-      max-width: 650px;
-      margin: 25px auto;
-      padding: 15px;
-    }
-
-    .chat-box {
-      background: white;
-      border-radius: 15px;
-      padding: 15px;
-      min-height: 320px;
-      box-shadow: 0 3px 15px #00000012;
-    }
-
-    .message {
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 12px;
-      line-height: 1.6;
-    }
-
-    .bot {
-      background: #e8edff;
-    }
-
-    .user {
-      background: #d8f5e2;
-      text-align: right;
-    }
-
-    .input-area {
-      display: flex;
-      gap: 8px;
-      margin-top: 15px;
-    }
-
-    input {
-      flex: 1;
-      min-width: 0;
-      padding: 14px;
-      border: 1px solid #bbb;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-
-    button {
-      background: #2345a0;
-      color: white;
-      border: none;
-      padding: 12px 18px;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 25px 10px;
-      color: #526080;
-      line-height: 1.7;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>প্রজ্ঞা AI</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f1ff;color:#21134d}
+header{background:linear-gradient(120deg,#4215a8,#2879ed);color:white;padding:22px;text-align:center}
+header h1{margin:0;font-size:32px}
+header p{margin:8px 0 0}
+main{max-width:850px;margin:30px auto;padding:18px}
+.hero,.chat,.features,.video{background:white;padding:22px;border-radius:18px;margin-bottom:18px;box-shadow:0 5px 20px #24106f12}
+.hero{text-align:center}
+.robot{font-size:55px}
+button{background:#5928d6;color:white;border:0;padding:12px 18px;border-radius:12px;cursor:pointer}
+.features{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.feature{background:#f1edff;padding:18px;text-align:center;border-radius:12px}
+input{width:75%;padding:13px;border:1px solid #ddd;border-radius:10px}
+.msg{background:#eeeaff;padding:12px;border-radius:12px;margin:10px 0}
+.user{background:#e5f1ff;text-align:right}
+footer{text-align:center;padding:25px;color:#625b7d}
+@media(max-width:600px){main{margin:12px auto}.features{grid-template-columns:1fr}input{width:65%}}
+</style>
 </head>
-
 <body>
-
-  <header>
-    <h1>প্রজ্ঞা AI</h1>
-    <p>আপনার বুদ্ধিমান সহকারী</p>
-  </header>
-
-  <main class="container">
-    <div class="chat-box" id="chatBox">
-      <div class="message bot">
-        আসসালামু আলাইকুম! আমি প্রজ্ঞা AI।<br>
-        আপনাকে স্বাগতম। 
-      </div>
-    </div>
-
-    <div class="input-area">
-      <input
-        type="text"
-        id="userInput"
-        placeholder="আপনার প্রশ্ন লিখুন..."
-      >
-      <button onclick="sendMessage()">পাঠান</button>
-    </div>
-  </main>
-
-  <footer>
-    প্রতিষ্ঠাতা ও নির্মাতা<br>
-    <strong>মোঃ এনায়েত উল্লাহ ফুয়াদ</strong><br>
-    Founder & Creator of Pragya AI
-  </footer>
-
-  <script>
-    function sendMessage() {
-      const input = document.getElementById("userInput");
-      const chatBox = document.getElementById("chatBox");
-      const message = input.value.trim();
-
-      if (!message) return;
-
-      const userMessage = document.createElement("div");
-      userMessage.className = "message user";
-      userMessage.textContent = message;
-      chatBox.appendChild(userMessage);
-
-      const botMessage = document.createElement("div");
-      botMessage.className = "message bot";
-      botMessage.textContent =
-        "আপনার বার্তা পেয়েছি। AI উত্তর দেওয়ার ব্যবস্থা এখনো সংযুক্ত করা হয়নি।";
-      chatBox.appendChild(botMessage);
-
-      input.value = "";
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    document.getElementById("userInput").addEventListener(
-      "keydown",
-      function(event) {
-        if (event.key === "Enter") sendMessage();
-      }
-    );
-  </script>
-
+<header>
+<h1>প্রজ্ঞা AI</h1>
+<p>Your Intelligent AI Assistant</p>
+</header>
+<main>
+<section class="hero">
+<div class="robot">🤖</div>
+<h2>স্বাগতম প্রজ্ঞা AI-তে</h2>
+<p>প্রশ্ন করুন, জানুন এবং শিখুন নিজের ভাষায়।</p>
+<button onclick="newChat()">＋ নতুন চ্যাট</button>
+</section>
+<section class="features">
+<div class="feature">💬<h3>AI Chat</h3><p>প্রশ্ন ও উত্তর</p></div>
+<div class="feature">🎙️<h3>Voice</h3><p>ভয়েস সুবিধা</p></div>
+<div class="feature">🖼️<h3>Image</h3><p>ছবি বোঝার সুবিধা</p></div>
+<div class="feature">🌐<h3>Web Search</h3><p>ইন্টারনেট অনুসন্ধান</p></div>
+</section>
+<section class="chat">
+<h3>💜 নতুন কথোপকথন</h3>
+<div class="msg">আসসালামু আলাইকুম! আমি প্রজ্ঞা AI-এর ইন্টারফেস। কী জানতে চান?</div>
+<div id="messages"></div>
+<input id="question" placeholder="আপনার প্রশ্ন লিখুন...">
+<button onclick="sendMessage()">পাঠান</button>
+<p style="font-size:12px;color:#777">প্রকৃত AI উত্তর পেতে সার্ভার সংযোগ প্রয়োজন।</p>
+</section>
+<section class="video">
+<h3>▶ নিরাপদ ভিডিও কর্নার</h3>
+<p>শিক্ষামূলক ও উপযুক্ত ভিডিও সুবিধা ভবিষ্যতে যোগ করা হবে।</p>
+</section>
+</main>
+<footer>
+প্রতিষ্ঠাতা ও নির্মাতা: মোঃ এনায়েত উল্লাহ ফুয়াদ<br>
+Founder & Creator of Pragya AI
+</footer>
+<script>
+function sendMessage(){
+const input=document.getElementById('question');
+const value=input.value.trim();
+if(!value)return;
+const box=document.getElementById('messages');
+const user=document.createElement('div');
+user.className='msg user';
+user.textContent=value;
+box.appendChild(user);
+const reply=document.createElement('div');
+reply.className='msg';
+reply.textContent='আপনার বার্তা গ্রহণ করা হয়েছে। প্রকৃত AI উত্তর পেতে সার্ভার সংযোগ প্রয়োজন।';
+box.appendChild(reply);
+input.value='';
+}
+function newChat(){
+document.getElementById('messages').innerHTML='';
+}
+</script>
 </body>
 </html>
