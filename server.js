@@ -5,6 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json({ limit: "20kb" }));
+
 app.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Origin",
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 
   next();
 });
+
 app.use(express.static(path.join(__dirname, "public")));
 
 let ai;
@@ -36,6 +38,36 @@ async function getAI() {
   }
 
   return ai;
+}
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function generateWithRetry(gemini, message) {
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      return await gemini.models.generateContent({
+        model: "gemini-3.8-flash",
+        contents: message
+      });
+    } catch (error) {
+      const errorText = String(error.message || error);
+
+      if (
+        !errorText.includes("503") &&
+        !errorText.includes("UNAVAILABLE")
+      ) {
+        throw error;
+      }
+
+      if (attempt === 3) {
+        throw error;
+      }
+
+      await wait(attempt * 2000);
+    }
+  }
 }
 
 app.post("/api/chat", async (req, res) => {
@@ -59,14 +91,12 @@ app.post("/api/chat", async (req, res) => {
   try {
     const gemini = await getAI();
 
-    const response = await gemini.models.generateContent({
-     model: "gemini-3.8-flash",
-      contents: message
-    });
+    const response = await generateWithRetry(gemini, message);
 
     res.json({
       reply: response.text || "উত্তর পাওয়া যায়নি।"
     });
+
   } catch (error) {
     console.error("AI error:", error.message);
 
