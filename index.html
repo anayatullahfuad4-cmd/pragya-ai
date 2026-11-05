@@ -60,7 +60,6 @@ footer{text-align:center;padding:25px;color:#625b7d}
 Founder & Creator of Pragya AI
 </footer>
 <script>
-function sendMessage(){
 const API_URL = "https://pragya-ai-gnjw.onrender.com/api/chat";
 
 async function sendMessage() {
@@ -102,7 +101,8 @@ async function sendMessage() {
 
   } catch (error) {
     console.error(error);
-    reply.textContent = "সংযোগে সমস্যা হয়েছে। একটু পরে আবার চেষ্টা করো।";
+    reply.textContent =
+      "সংযোগে সমস্যা হয়েছে। একটু পরে আবার চেষ্টা করো।";
   }
 }
 
