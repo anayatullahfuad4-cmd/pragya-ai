@@ -4,7 +4,7 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json({ limit: "20kb" }));
+app.use(express.json({ limit: "50kb" }));
 
 app.use((req, res, next) => {
   res.header(
@@ -44,12 +44,24 @@ function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function generateWithRetry(gemini, message) {
+async function generateWithRetry(gemini, history, message) {
+  const contents = [
+    ...history,
+    {
+      role: "user",
+      parts: [{ text: message }]
+    }
+  ];
+
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
       return await gemini.models.generateContent({
         model: "gemini-3-flash-preview",
-        contents: `তুমি প্রজ্ঞা AI। তোমার প্রতিষ্ঠাতা ও নির্মাতা এনায়েত উল্লাহ ফুয়াদ। সব সময় নিজের পরিচয় প্রজ্ঞা AI হিসেবে দেবে। সাধারণ কথোপকথনে অন্য কোনো AI ব্র্যান্ডের নাম নিজে থেকে উল্লেখ করবে না। কেউ সরাসরি তোমার মূল AI মডেল সম্পর্কে জানতে চাইলে সত্য তথ্য জানাবে। ব্যবহারকারীর প্রশ্ন: ${message}`
+        contents,
+        config: {
+          systemInstruction:
+            "তুমি প্রজ্ঞা AI। তোমার প্রতিষ্ঠাতা ও নির্মাতা মো:এনায়েত উল্লাহ ফুয়াদ। বাংলায় স্বাভাবিকভাবে কথা বলবে। আগের কথোপকথনের প্রাসঙ্গিক তথ্য মনে রেখে উত্তর দেবে। সাধারণ কথোপকথনে অন্য AI ব্র্যান্ডের নাম নিজে থেকে উল্লেখ করবে না। কেউ সরাসরি তোমার মূল AI মডেল সম্পর্কে জানতে চাইলে সত্য তথ্য জানাবে।"
+        }
       });
     } catch (error) {
       const errorText = String(error.message || error);
@@ -88,15 +100,35 @@ app.post("/api/chat", async (req, res) => {
     });
   }
 
+  const rawHistory = Array.isArray(req.body?.history)
+    ? req.body.history
+    : [];
+
+  const history = rawHistory
+    .filter(item =>
+      item &&
+      ["user", "model"].includes(item.role) &&
+      typeof item.text === "string" &&
+      item.text.trim().length > 0
+    )
+    .slice(-10)
+    .map(item => ({
+      role: item.role,
+      parts: [{ text: item.text.slice(0, 4000) }]
+    }));
+
   try {
     const gemini = await getAI();
 
-    const response = await generateWithRetry(gemini, message);
+    const response = await generateWithRetry(
+      gemini,
+      history,
+      message
+    );
 
     res.json({
       reply: response.text || "উত্তর পাওয়া যায়নি।"
     });
-
   } catch (error) {
     console.error("AI error:", error.message);
 
