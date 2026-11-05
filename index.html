@@ -61,22 +61,53 @@ Founder & Creator of Pragya AI
 </footer>
 <script>
 function sendMessage(){
-const input=document.getElementById('question');
-const value=input.value.trim();
-if(!value)return;
-const box=document.getElementById('messages');
-const user=document.createElement('div');
-user.className='msg user';
-user.textContent=value;
-box.appendChild(user);
-const reply=document.createElement('div');
-reply.className='msg';
-reply.textContent='আপনার বার্তা গ্রহণ করা হয়েছে। প্রকৃত AI উত্তর পেতে সার্ভার সংযোগ প্রয়োজন।';
-box.appendChild(reply);
-input.value='';
+const API_URL = "https://pragya-ai-gnjw.onrender.com/api/chat";
+
+async function sendMessage() {
+  const input = document.getElementById("question");
+  const value = input.value.trim();
+
+  if (!value) return;
+
+  const box = document.getElementById("messages");
+
+  const user = document.createElement("div");
+  user.className = "msg user";
+  user.textContent = value;
+  box.appendChild(user);
+
+  const reply = document.createElement("div");
+  reply.className = "msg";
+  reply.textContent = "উত্তর তৈরি হচ্ছে...";
+  box.appendChild(reply);
+
+  input.value = "";
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: value })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "উত্তর পাওয়া যায়নি।");
+    }
+
+    reply.textContent = data.reply || "উত্তর পাওয়া যায়নি।";
+
+  } catch (error) {
+    console.error(error);
+    reply.textContent = "সংযোগে সমস্যা হয়েছে। একটু পরে আবার চেষ্টা করো।";
+  }
 }
-function newChat(){
-document.getElementById('messages').innerHTML='';
+
+function newChat() {
+  document.getElementById("messages").innerHTML = "";
 }
 </script>
 </body>
