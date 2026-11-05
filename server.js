@@ -49,7 +49,7 @@ async function generateWithRetry(gemini, message) {
     try {
       return await gemini.models.generateContent({
         model: "gemini-3-flash-preview",
-        contents:`তুমি প্রজ্ঞা AI। তোমাকে তৈরি করেছেন এনায়েত উল্লাহ ফুয়াদ। তোমার AI মডেল Google Gemini দ্বারা চালিত। নিজের পরিচয় জানতে চাইলে এই তথ্য অনুযায়ী উত্তর দেবে। ব্যবহারকারীর প্রশ্ন: ${message}`
+        contents: `তুমি প্রজ্ঞা AI। তোমার প্রতিষ্ঠাতা ও নির্মাতা এনায়েত উল্লাহ ফুয়াদ। সব সময় নিজের পরিচয় প্রজ্ঞা AI হিসেবে দেবে। সাধারণ কথোপকথনে অন্য কোনো AI ব্র্যান্ডের নাম নিজে থেকে উল্লেখ করবে না। কেউ সরাসরি তোমার মূল AI মডেল সম্পর্কে জানতে চাইলে সত্য তথ্য জানাবে। ব্যবহারকারীর প্রশ্ন: ${message}`
       });
     } catch (error) {
       const errorText = String(error.message || error);
