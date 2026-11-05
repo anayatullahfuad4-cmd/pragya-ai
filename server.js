@@ -49,7 +49,7 @@ async function generateWithRetry(gemini, message) {
     try {
       return await gemini.models.generateContent({
         model: "gemini-3-flash-preview",
-        contents: message
+        contents:`তুমি প্রজ্ঞা AI। তোমাকে তৈরি করেছেন এনায়েত উল্লাহ ফুয়াদ। তোমার AI মডেল Google Gemini দ্বারা চালিত। নিজের পরিচয় জানতে চাইলে এই তথ্য অনুযায়ী উত্তর দেবে। ব্যবহারকারীর প্রশ্ন: ${message}`
       });
     } catch (error) {
       const errorText = String(error.message || error);
