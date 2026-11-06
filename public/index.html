@@ -59,14 +59,16 @@ footer{text-align:center;color:#52617e;padding:20px;font-size:14px}
 
 <footer>
 প্রতিষ্ঠাতা ও নির্মাতা<br>
-এনায়েত উল্লাহ ফুয়াদ<br>
-Founder & Creator of Pragya AI
+মোঃ এনায়েত উল্লাহ ফুয়াদ<br>
+Founder &amp; Creator of Pragya AI
 </footer>
 
 <script>
 const chat=document.getElementById("chat");
 const input=document.getElementById("message");
 const send=document.getElementById("send");
+
+let conversationHistory=[];
 
 function addMessage(text,type){
 const div=document.createElement("div");
@@ -91,7 +93,10 @@ try{
 const response=await fetch("/api/chat",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({message})
+body:JSON.stringify({
+message:message,
+history:conversationHistory
+})
 });
 
 const data=await response.json();
@@ -100,7 +105,15 @@ if(!response.ok){
 throw new Error(data.error || "সার্ভার সমস্যা");
 }
 
-waiting.textContent=data.reply || "উত্তর পাওয়া যায়নি।";
+const reply=data.reply || "উত্তর পাওয়া যায়নি।";
+waiting.textContent=reply;
+
+conversationHistory.push(
+{role:"user",text:message},
+{role:"model",text:reply}
+);
+
+conversationHistory=conversationHistory.slice(-10);
 
 }catch(error){
 waiting.textContent="দুঃখিত, উত্তর পাওয়া যায়নি। পরে আবার চেষ্টা করো।";
@@ -111,6 +124,7 @@ input.focus();
 }
 
 function newChat(){
+conversationHistory=[];
 chat.innerHTML="";
 addMessage("নতুন কথোপকথন শুরু হয়েছে। কী জানতে চাও?","bot");
 }
