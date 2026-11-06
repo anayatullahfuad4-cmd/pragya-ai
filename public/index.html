@@ -68,7 +68,8 @@ const chat=document.getElementById("chat");
 const input=document.getElementById("message");
 const send=document.getElementById("send");
 
-let conversationHistory=[];
+let conversationHistory = JSON.parse(localStorage.getItem("pragya_chat_history") || "[]");
+localStorage.setItem("pragya_chat_history", JSON.stringify(conversationHistory));
 
 function addMessage(text,type){
 const div=document.createElement("div");
@@ -114,7 +115,7 @@ conversationHistory.push(
 );
 
 conversationHistory=conversationHistory.slice(-10);
-
+localStorage.setItem("pragya_chat_history", JSON.stringify(conversationHistory));
 }catch(error){
 waiting.textContent="দুঃখিত, উত্তর পাওয়া যায়নি। পরে আবার চেষ্টা করো।";
 }finally{
@@ -125,6 +126,7 @@ input.focus();
 
 function newChat(){
 conversationHistory=[];
+localStorage.removeItem("pragya_chat_history");
 chat.innerHTML="";
 addMessage("নতুন কথোপকথন শুরু হয়েছে। কী জানতে চাও?","bot");
 }
